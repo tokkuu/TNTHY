@@ -4,15 +4,15 @@ try{
     // DB接続
     $pdo = new PDO(
         // ホスト名、データベース名
-        'mysql:host=localhost;dbname=studb',
+        'mysql:host=localhost;dbname=sys3_23_itdev_b',
         // ユーザー名
-        'dbuser',
+        'sys3_23_itdev_b',
         // パスワード
-        'ecc',
+        'M3cVGWbY',
         // レコード列名をキーとして取得される
         [PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]
     );
-    $sql = 'select * from user';
+    $sql = 'select * from EV_LIST';
     $statement = $pdo->query($sql);
     // レコード件数取得
     $row_count = $statement->rowCount();
@@ -48,22 +48,29 @@ try{
             <th>内容</th>
             <th>済</th>
         </tr>
-        <?php foreach($rows as $row){ ?>
-            <tr>
-                <th><?php echo "{$row['USER_NO']}"; ?></th>
-                <th><?php echo"{$row['NNAME']}" ?></th>
-                <th><?php echo "{$row['RUBY']}"; ?></th>
-                <th><?php echo "{$row['MAIL']}"; ?></th>
-                <th><?php echo "{$row['PASSWORD']}"; ?></th>
-                <th>
-                    <?php if("{$row['']}" == 1){ ?>
-                        <i class="fa-duotone fa-check fa-2xs" style="--fa-secondary-opacity: 0.1;"></i>
-                    <?php }else{
-                            
-                    }?>
-                </th>
-            </tr>
-        <?php } ?>
+        <?php 
+        if($row >= 1){
+            foreach($rows as $row){ ?>
+                <tr>
+                    <a class="linkDetail" href="pushImg.php?sid=<?php echo $row['EV_ID']; ?>">
+                        <th><?php echo "{$row['EV_DAY']}"; ?></th>
+                        <th><?php echo"{$row['COME_ID']}" ?></th>
+                        <th><?php echo "{$row['AREARIST']}"; ?></th>
+                        <th><?php echo "{$row['WORK_ID']}"; ?></th>
+                        <th><?php echo "{$row['TEXT']}"; ?></th>
+                        <th>
+                            <?php if("{$row['EV_DAY']}" >= 1){ ?>
+                                <i class="fa-duotone fa-check fa-2xs" style="--fa-secondary-opacity: 0.1;"></i>
+                            <?php }else{
+                                
+                            }?>
+                        </th>
+                    </a>
+                </tr>
+            <?php }
+        }else{
+            
+        }?>
     </table>    
 </body>
 </html>
