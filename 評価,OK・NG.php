@@ -1,8 +1,8 @@
 <?php
 try{
     $pdo = new PDO(
-        'mysql:host = localhost; dbname = sys3_23_itdev_b',//接続するホスト名（IPアドレスの指定）
-        'user',//接続するユーザー名
+        'mysql:host=localhost;dbname=sys3_23_itdev_b',//接続するホスト名（IPアドレスの指定）
+        'root',//接続するユーザー名
         'root',//接続するパスワード名
         [PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]
     );
@@ -13,6 +13,7 @@ try{
     $statement = $pdo->query($sql);
     // レコード件数取得
     $row_count = $statement->rowCount();
+    //var_dump($row_count);
     while($row = $statement->fetch()){
         $rows[] = $row;
     }
@@ -45,22 +46,36 @@ try{
         <form action="" method="post">
             <table border="1">
             <div style="text-align:center">
-                <a class = "active">申請日:</a><br>
-                <a class = "active">申請者:</a><br>
-                <a class = "active">基本給:</a><br>
-                <a class="active">エリア</a><br>
-                <a class="active">仕事</a><br>
 
-                <label for="text">内容</label>
-                <p><textarea cols="50" rows="5"></textarea></p>
-                <a class="active">ポイント   0000p</a>
+                <a class = "active">申請日:</a>
+                <?php foreach($rows as $row)?>
+                <?php echo $row['INPUT']; ?><br>
+
+                <a class = "active">申請者:</a>
+                <?php echo $row['NAME']; ?><br>
+
+                <a class = "active">基本給:</a>
+                <?php echo $row['P_HOUR']; ?><br>
+
+                <a class="active">エリア:</a>
+                <?php echo $row['AREA_NAME']; ?><br>
+
+                <a class="active">仕事:</a>
+                <?php echo $row['WORK_NAME']; ?><br>
+
+                <a class="active">内容:</a>
+                <?php echo $row['TEXT']; ?><br>
+
+                <a class="active">ポイント:</a>
+                <?php echo $row['POINT']; ?>
+                <a class="active">p:</a><br>
+
                 <input type="point" name="point" id="point" required>
                 <input type="submit" value="追加"><br>
-
-                <!-- <p><textarea cols="50" rows="5"></textarea></p> -->
-                <!-- <p><input type="submit" value="送信"></p> -->
                 <button type="submit" name="add">OK</button>
                 <button type="submit" name="delete">NG</button>
+
+                <?php foreach($rows as $row)  ?>
             </div>
         </form>
 
