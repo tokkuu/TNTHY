@@ -1,5 +1,11 @@
 <?php
 try{
+    // $pdo = new PDO(
+    //     'mysql:host=localhost;dbname=sys3_23_itdev_b',//接続するホスト名（IPアドレスの指定）
+    //     'sys3_23_itdev_b',//接続するユーザー名
+    //     'M3cVGWbY',//接続するパスワード名
+    //     [PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]
+    // );
     $pdo = new PDO(
         'mysql:host=localhost;dbname=sys3_23_itdev_b',//接続するホスト名（IPアドレスの指定）
         'root',//接続するユーザー名
@@ -9,7 +15,8 @@ try{
     $sql = 'SELECT * FROM EV_LIST
             JOIN USER ON (EV_LIST.COME_ID = USER.ID)
             JOIN AREA_D ON (EV_LIST.AREARIST = AREA_D.AREA_D_ID)
-            JOIN WORK_D ON (EV_LIST.WORK_ID = WORK_D.WORK_D_ID)';
+            JOIN WORK_D ON (EV_LIST.WORK_ID = WORK_D.WORK_D_ID) WHERE EV_ID = 1';
+            // var_dump($sql);
     $statement = $pdo->query($sql);
     // レコード件数取得
     $row_count = $statement->rowCount();
@@ -22,6 +29,7 @@ try{
         // エラー発生
         echo $e->getMessage();
     } finally {
+        //$pdo->commit();
         // DBを閉じる
         $pdo = null;
     }
@@ -49,7 +57,8 @@ try{
 
                 <a class = "active">申請日:</a>
                 <?php foreach($rows as $row)?>
-                <?php echo $row['INPUT']; ?><br>
+                <?php echo $row['INPUT']; ?>
+                <br>
 
                 <a class = "active">申請者:</a>
                 <?php echo $row['NAME']; ?><br>
@@ -68,16 +77,40 @@ try{
 
                 <a class="active">ポイント:</a>
                 <?php echo $row['POINT']; ?>
-                <a class="active">p:</a><br>
+                <a class="active">p</a><br>
 
-                <input type="point" name="point" id="point" required>
+                <input type="number" value="" name="point" id="point" required>
                 <input type="submit" value="追加"><br>
-                <button type="submit" name="add">OK</button>
-                <button type="submit" name="delete">NG</button>
 
-                <?php foreach($rows as $row)  ?>
+                <?php
+                    // $pdo = new PDO(
+                    //     'mysql:host=localhost;dbname=sys3_23_itdev_b',//接続するホスト名（IPアドレスの指定）
+                    //     'sys3_23_itdev_b',//接続するユーザー名
+                    //     'M3cVGWbY',//接続するパスワード名
+                    //     [PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]
+                    // );
+                    $pdo = new PDO(
+                        'mysql:host=localhost;dbname=sys3_23_itdev_b',//接続するホスト名（IPアドレスの指定）
+                        'root',//接続するユーザー名
+                        'root',//接続するパスワード名
+                        [PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]
+                    );
+                    $recpoint = 800;
+                    $id = 2;
+                    // $recpoint = $_POST['point'];
+                    // $id = $_POST['id'];
+                    $sql = "UPDATE USER SET POINT = " . $recpoint . " WHERE ID = " . $id . ";";
+                    // var_dump($sql);
+                    $stmt = $pdo->prepare($sql);
+                    // $stmt->bindparam(':point','1000',PDO::PARAM_INT);
+                    // $stmt->bindparam(':id','2',PDO::PARAM_INT);
+                    $res = $stmt->execute();
+                    // $pdo->commit();
+                    $pdo = null;
+                ?>
+
+                <?php //foreach($rows as $row)  ?>
             </div>
         </form>
-
     </body>
 </html>
