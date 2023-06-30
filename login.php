@@ -14,13 +14,13 @@ if (isset($_POST['login'])) {
             // ホスト名、データベース名
             'mysql:host=localhost;dbname=sys3_23_itdev_b',
             // ユーザー名
-            'sys3_23_itdev_b',
+            'root',
             // パスワード
-            'M3cVGWbY',
+            'root',
             // レコード列名をキーとして取得される
             [PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]
         );
-        $sql = 'select * from users where username=? and password=?';
+        $sql = 'select * from users where NAME='.$username.' and PASS='.$password;
         $stmt = $db->prepare($sql);
         $stmt->execute(array($username, $password));
         $result = $stmt->fetch();
@@ -57,13 +57,13 @@ if (isset($_POST['login'])) {
     <title></title>
 </head>
 
-<body>
+<body align="center">
     <div class="signin">
         <form action="" method="POST">
             <label for="signin-id">アカウント名</label>
-            <input id="signin-id" name="username" type="text" placeholder="メールアドレスを入力">
+            <input id="signin-id" name="username" type="text" placeholder="メールアドレスを入力"><br>
             <label for="signin-pass">パスワード</label>
-            <input id="signin-pass" name="password" type="text" placeholder="パスワードを入力">
+            <input id="signin-pass" name="password" type="text" placeholder="パスワードを入力"><br>
             <button name="signin" type="submit">ログインする</button>
         </form>
     </div>
